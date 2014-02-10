@@ -13,6 +13,7 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
         self.someday_file = self.get_filename("someday_file")
 
     def get_filename(self, key):
+        # FIXME: make sure self.settings exists
         return os.path.join(self.find_root_directory(), self.settings.get(key))
 
     def find_root_directory(self):
@@ -31,7 +32,7 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
 class MarkdownTodoAddCommand(MarkdownTodoBase):
     """Description"""
     def runCommand(self, edit):
-        # FIXME - this isn't implemented
+        # FIXME: this isn't implemented
         for region in self.view.sel():
             lines = self.view.lines(region)
             lines.reverse()
@@ -71,7 +72,8 @@ class MarkdownTodoDoneCommand(MarkdownTodoBase):
 class MarkdownTodoArchiveCommand(MarkdownTodoBase):
     """Move done items to the archive file."""
     def runCommand(self, edit):
-        # FIXME - should be looking only at specific files?
+        # FIXME: should be looking only at specific files to archive
+        # FIXME: would like to put the lines in archive file in sorted order
         archive_lines = self.view.find_all('\s*\+ @done.+$')
         archive_lines.reverse() # reverse because it is destructive change
         # print ("Matches =", len(archive_lines))
@@ -87,12 +89,12 @@ class MarkdownTodoArchiveCommand(MarkdownTodoBase):
 
 class MarkdownTodoWaitCommand(MarkdownTodoBase):
     """Description"""
-    # FIXME - this isn't implemented
+    # FIXME: this isn't implemented
     def runCommand(self, edit):
         pass
 
 class MarkdownTodoSomedayCommand(MarkdownTodoBase):
     """Description"""
-    # FIXME - this isn't implemented
+    # FIXME: this isn't implemented
     def runCommand(self, edit):
         pass
