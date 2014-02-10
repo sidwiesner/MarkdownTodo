@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "Mark done",
+        "command": "markdown_todo_done"
+    },
+    {
+        "caption": "Archive",
+        "command": "markdown_todo_archive"
+    }
+]

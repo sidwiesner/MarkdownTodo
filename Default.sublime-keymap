@@ -1,0 +1,4 @@
+[
+    { "keys": ["super+shift+d"], "command": "markdown_todo_done" },
+    { "keys": ["super+shift+a"], "command": "markdown_todo_archive" }
+]
