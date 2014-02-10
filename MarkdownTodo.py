@@ -10,7 +10,7 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
             return False
         self.runCommand(edit)
 
-class TodoAddCommand(MarkdownTodoBase):
+class MarkdownTodoAddCommand(MarkdownTodoBase):
     # FIXME - this isn't implemented
     def runCommand(self, edit):
         for region in self.view.sel():
@@ -26,7 +26,7 @@ class TodoAddCommand(MarkdownTodoBase):
                     line_contents = self.view.substr(line) + '\n- '
                     self.view.replace(edit, line, line_contents)
 
-class TodoDoneCommand(MarkdownTodoBase):
+class MarkdownTodoDoneCommand(MarkdownTodoBase):
     def runCommand(self, edit):
         for region in self.view.sel():
             lines = self.view.lines(region)
@@ -43,7 +43,7 @@ class TodoDoneCommand(MarkdownTodoBase):
                     self.view.erase(edit, subfix)
                     self.view.replace(edit, line_head, "-")
 
-class TodoArchiveCommand(MarkdownTodoBase):
+class MarkdownTodoArchiveCommand(MarkdownTodoBase):
     def runCommand(self, edit):
         for region in self.view.sel():
             lines = self.view.lines(region)
@@ -58,12 +58,12 @@ class TodoArchiveCommand(MarkdownTodoBase):
                         subfix = self.view.find('(\s)*@done(.)+\)$', line.begin())
                         self.view.erase(edit, line)
 
-class TodoWaitCommand(MarkdownTodoBase):
+class MarkdownTodoWaitCommand(MarkdownTodoBase):
     # FIXME - this isn't implemented
     def runCommand(self, edit):
         pass
 
-class TodoSomedayCommand(MarkdownTodoBase):
+class MarkdownTodoSomedayCommand(MarkdownTodoBase):
     # FIXME - this isn't implemented
     def runCommand(self, edit):
         pass
