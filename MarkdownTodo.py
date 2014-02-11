@@ -13,19 +13,27 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
         self.someday_file = self.get_filename("someday_file")
 
     def get_filename(self, key):
-        # FIXME: make sure self.settings exists
+        if self.settings is None:
+            return ""
         return os.path.join(self.find_root_directory(), self.settings.get(key))
 
     def find_root_directory(self):
         # FIXME: this is too simplistic. Should do a downward directory search
         # done to make sure this is actually the right directory to use.
-        return os.path.dirname(self.view.file_name())
+        if self.root_directory is not None and self.root_directory != "":
+            return self.root_directory
+        self.root_directory = os.path.dirname(self.view.file_name())
+        return self.root_directory
+
+    def valid_markdown_extension(self, filename):
+        allowed_filetypes = ('.md', '.markdown', '.mdown')
+        if filename is None:
+            return False
+        return filename.endswith(allowed_filetypes)
 
     def run(self, edit):
         self.configure()
-        file_name = self.view.file_name()
-        allowed_filetypes = ('.md', '.markdown', '.mdown')
-        if file_name is None or not file_name.endswith(allowed_filetypes):
+        if not valid_file_extension(self.view.file_name()):
             return False
         self.runCommand(edit)
 
