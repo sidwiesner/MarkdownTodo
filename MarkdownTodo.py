@@ -67,7 +67,6 @@ class MarkdownTodoAddCommand(MarkdownTodoBase):
         with open(self.files["todo"], "a") as todo_file:
             for region in self.view.sel():
                 lines = self.view.lines(region)
-                lines.reverse()
                 for line in lines:
                     line_contents = self.view.substr(line).strip()
                     todo_file.write(line_contents + self.get_line_ending())
