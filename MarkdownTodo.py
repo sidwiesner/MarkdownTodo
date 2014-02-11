@@ -117,7 +117,6 @@ class MarkdownTodoWaitCommand(MarkdownTodoBase):
             for region in self.view.sel():
                 lines = self.view.lines(region)
                 for line in lines:
-                    line_head = self.view.find("-", line.begin())
                     line_contents = self.view.substr(line).strip()
                     # strip leading dash before writing
                     if line_contents.startswith("- "):
@@ -125,9 +124,20 @@ class MarkdownTodoWaitCommand(MarkdownTodoBase):
                     waiting_file.write("- WAITING: %s - %s%s" %
                         (datetime.datetime.now().strftime("%b %d"),
                          line_contents, self.get_line_ending()))
+                    # delete line if in special file
+                    if self.is_primary_todo_file():
+                        self.view.erase(edit, line)
 
 class MarkdownTodoSomedayCommand(MarkdownTodoBase):
-    """Description"""
-    # FIXME: this isn't implemented
+    """Move someday items to the waiting file."""
     def runCommand(self, edit):
-        pass
+        # Only pay attention to current selection(s)
+        with open(self.files["someday"], "a") as someday_file:
+            for region in self.view.sel():
+                lines = self.view.lines(region)
+                lines.reverse() # reverse because it is destructive change
+                for line in lines:
+                    line_contents = self.view.substr(line).strip()
+                    someday_file.write(line_contents + self.get_line_ending())
+                    # FIXME: erase leaves empty line (newline)
+                    self.view.erase(edit, line)
