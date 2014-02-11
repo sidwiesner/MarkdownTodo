@@ -93,7 +93,7 @@ class MarkdownTodoDoneCommand(MarkdownTodoBase):
                 # prepend @done if item is ongoing
                 if line_contents.startswith('-'):
                     self.view.replace(edit, line_head, "+ @done (%s)" %
-                        datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+                        datetime.datetime.now().strftime("%Y-%m-%d"))
                 # undo @done
                 elif line_contents.startswith('+'):
                     subfix = self.view.find('\s*@done \([^)]+\)', line.begin())
