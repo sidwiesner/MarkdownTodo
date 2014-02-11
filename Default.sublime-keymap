@@ -1,4 +1,7 @@
 [
     { "keys": ["super+shift+d"], "command": "markdown_todo_done" },
-    { "keys": ["super+shift+a"], "command": "markdown_todo_archive" }
+    { "keys": ["super+shift+z"], "command": "markdown_todo_archive" },
+    { "keys": ["super+shift+a"], "command": "markdown_todo_add" },
+    { "keys": ["super+shift+w"], "command": "markdown_todo_waiting" },
+    { "keys": ["super+shift+s"], "command": "markdown_todo_someday" }
 ]

@@ -1,10 +1,22 @@
 [
     {
-        "caption": "Mark done",
+        "caption": "Markdown Todo: Mark done",
         "command": "markdown_todo_done"
     },
     {
-        "caption": "Archive",
+        "caption": "Markdown Todo: Archive",
         "command": "markdown_todo_archive"
+    },
+    {
+        "caption": "Markdown Todo: Add",
+        "command": "markdown_todo_add"
+    },
+    {
+        "caption": "Markdown Todo: Waiting For",
+        "command": "markdown_todo_waiting"
+    },
+    {
+        "caption": "Markdown Todo: Someday/Maybe",
+        "command": "markdown_todo_someday"
     }
 ]
