@@ -12,6 +12,12 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
         self.waiting_file = self.get_filename("waiting_file")
         self.someday_file = self.get_filename("someday_file")
 
+    def run(self, edit):
+        self.configure()
+        if not self.valid_markdown_extension(self.view.file_name()):
+            return False
+        self.runCommand(edit)
+
     def get_filename(self, key):
         return os.path.join(self.find_root_directory(), self.settings.get(key))
 
@@ -45,12 +51,6 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
             "CR"     : '\r',
         }
         return line_endings[self.view.line_endings()]
-
-    def run(self, edit):
-        self.configure()
-        if not self.valid_markdown_extension(self.view.file_name()):
-            return False
-        self.runCommand(edit)
 
 class MarkdownTodoAddCommand(MarkdownTodoBase):
     """Description"""
