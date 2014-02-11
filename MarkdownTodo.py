@@ -110,10 +110,21 @@ class MarkdownTodoArchiveCommand(MarkdownTodoBase):
                 self.view.erase(edit, line)
 
 class MarkdownTodoWaitCommand(MarkdownTodoBase):
-    """Description"""
-    # FIXME: this isn't implemented
+    """Append waiting items to the waiting file."""
     def runCommand(self, edit):
-        pass
+        # Only pay attention to current selection(s)
+        with open(self.files["waiting"], "a") as waiting_file:
+            for region in self.view.sel():
+                lines = self.view.lines(region)
+                for line in lines:
+                    line_head = self.view.find("-", line.begin())
+                    line_contents = self.view.substr(line).strip()
+                    # strip leading dash before writing
+                    if line_contents.startswith("- "):
+                        line_contents = line_contents[2:]
+                    waiting_file.write("- WAITING: %s - %s%s" %
+                        (datetime.datetime.now().strftime("%b %d"),
+                         line_contents, self.get_line_ending()))
 
 class MarkdownTodoSomedayCommand(MarkdownTodoBase):
     """Description"""

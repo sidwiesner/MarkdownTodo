@@ -13,7 +13,7 @@
     },
     {
         "caption": "Markdown Todo: Waiting For",
-        "command": "markdown_todo_waiting"
+        "command": "markdown_todo_wait"
     },
     {
         "caption": "Markdown Todo: Someday/Maybe",
