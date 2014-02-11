@@ -61,29 +61,22 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
         return line_endings[self.view.line_endings()]
 
 class MarkdownTodoAddCommand(MarkdownTodoBase):
-    """Description"""
+    """Append todo items to the todo file."""
     def runCommand(self, edit):
-        # FIXME: this isn't implemented
-        for region in self.view.sel():
-            lines = self.view.lines(region)
-            lines.reverse()
-            for line in lines:
-                # don't add a newline when creating new item with cursor is at
-                # an empty line
-                if not line:
-                    line_contents = '- '
-                    self.view.insert(edit, line.begin(), line_contents)
-                # add a newline when creating new item when cursor is at another
-                # line
-                else:
-                    line_contents = self.view.substr(line) + '\n- '
-                    self.view.replace(edit, line, line_contents)
+        # Only pay attention to current selection(s)
+        with open(self.files["todo"], "a") as todo_file:
+            for region in self.view.sel():
+                lines = self.view.lines(region)
+                lines.reverse()
+                for line in lines:
+                    line_contents = self.view.substr(line).strip()
+                    todo_file.write(line_contents + self.get_line_ending())
 
 class MarkdownTodoDoneCommand(MarkdownTodoBase):
     """Mark item as done, prepending the @done and current date/time. Can also
        be used to reverse its own effects."""
     def runCommand(self, edit):
-        # Only pay attention to current selection
+        # Only pay attention to current selection(s)
         for region in self.view.sel():
             lines = self.view.lines(region)
             lines.reverse()
