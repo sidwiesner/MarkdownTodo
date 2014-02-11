@@ -38,6 +38,14 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
             return False
         return filename.endswith(allowed_filetypes)
 
+    def get_line_ending(self):
+        line_endings = {
+            "Unix"   : '\n',
+            "Windows": '\r\n',
+            "CR"     : '\r',
+        }
+        return line_endings[self.view.line_endings()]
+
     def run(self, edit):
         self.configure()
         if not self.valid_markdown_extension(self.view.file_name()):
@@ -96,10 +104,7 @@ class MarkdownTodoArchiveCommand(MarkdownTodoBase):
             for line in archive_lines:
                 # print ("Region found =", line)
                 line_contents = self.view.substr(line).strip()
-                # FIXME: handle any type of line endings
-                # self.view.line_endings()
-                archive_file.write(line_contents + "\n")
-                # FIXME: delete new line from old file too
+                archive_file.write(line_contents + self.get_line_ending())
                 self.view.erase(edit, line)
 
 class MarkdownTodoWaitCommand(MarkdownTodoBase):
