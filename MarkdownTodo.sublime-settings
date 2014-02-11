@@ -1,4 +1,5 @@
 {
+    // filenames of primary GTD markdown files
     "todo_file": "todo.md",
     "archive_file": "archive.md",
     "waiting_file": "waiting.md",

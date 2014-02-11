@@ -7,10 +7,12 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
     """Base class for Markdown Todo actions"""
     def configure(self):
         self.settings = sublime.load_settings('MarkdownTodo.sublime-settings')
-        self.archive_file = self.get_filename("archive_file")
-        self.todo_file    = self.get_filename("todo_file")
-        self.waiting_file = self.get_filename("waiting_file")
-        self.someday_file = self.get_filename("someday_file")
+        self.files = {
+            "todo"   : self.get_filename("todo_file"),
+            "archive": self.get_filename("archive_file"),
+            "waiting": self.get_filename("waiting_file"),
+            "someday": self.get_filename("someday_file"),
+        }
 
     def run(self, edit):
         self.configure()
@@ -35,6 +37,8 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
                     path_found = True
                 else:
                     (current_root, filename) = os.path.split(current_root)
+            if current_root == "":
+                raise AttributeError
             self.root_directory = current_root
             return self.root_directory
 
@@ -100,7 +104,7 @@ class MarkdownTodoArchiveCommand(MarkdownTodoBase):
         archive_lines = self.view.find_all('\s*\+ @done.+$')
         archive_lines.reverse() # reverse because it is destructive change
         # print ("Matches =", len(archive_lines))
-        with open(self.archive_file, "a") as archive_file:
+        with open(self.files["archive"], "a") as archive_file:
             for line in archive_lines:
                 # print ("Region found =", line)
                 line_contents = self.view.substr(line).strip()
