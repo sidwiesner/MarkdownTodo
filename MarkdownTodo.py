@@ -48,6 +48,10 @@ class MarkdownTodoBase(sublime_plugin.TextCommand):
             return False
         return filename.endswith(allowed_filetypes)
 
+    def is_primary_todo_file(self):
+        # check if currently open file is in special todo file list
+        return self.view.file_name() in self.files.values()
+
     def get_line_ending(self):
         line_endings = {
             "Unix"   : '\n',
@@ -99,7 +103,9 @@ class MarkdownTodoDoneCommand(MarkdownTodoBase):
 class MarkdownTodoArchiveCommand(MarkdownTodoBase):
     """Move done items to the archive file."""
     def runCommand(self, edit):
-        # FIXME: should be looking only at specific files to archive
+        # Only archive lines if file is one of the primary todo files
+        if not self.is_primary_todo_file():
+            return False
         # FIXME: would like to put the lines in archive file in sorted order
         archive_lines = self.view.find_all('\s*\+ @done.+$')
         archive_lines.reverse() # reverse because it is destructive change
