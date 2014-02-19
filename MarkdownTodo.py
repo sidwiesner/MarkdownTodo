@@ -1,3 +1,5 @@
+# FIXME: refactor to remove a lot of duplicate code between classes
+
 import datetime
 import os
 import sublime
